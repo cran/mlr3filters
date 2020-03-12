@@ -1,11 +1,16 @@
 
 # mlr3filters
 
-*mlr3filters* adds filters, feature selection methods and embedded
-feature selection methods of algorithms to *mlr3*.
+Package website: [release](https://mlr3filters.mlr-org.com/) |
+[dev](https://mlr3filters.mlr-org.com/dev)
 
-[![Travis build
-status](https://travis-ci.org/mlr-org/mlr3filters.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3filters)
+{mlr3filters} adds filters, feature selection methods and embedded
+feature selection methods of algorithms to {mlr3}.
+
+<!-- badges: start -->
+
+[![R CMD Check via
+{tic}](https://img.shields.io/github/workflow/status/mlr-org/mlr3filters/R%20CMD%20Check%20via%20%7Btic%7D?logo=github&label=R%20CMD%20Check%20via%20%7Btic%7D&style=flat-square)](https://github.com/mlr-org/mlr3filters/actions)
 [![CRAN Status
 Badge](https://www.r-pkg.org/badges/version-ago/mlr3filters)](https://cran.r-project.org/package=mlr3filters)
 [![CRAN
@@ -13,6 +18,7 @@ checks](https://cranchecks.info/badges/worst/mlr3filters)](https://cran.r-projec
 [![Coverage
 status](https://codecov.io/gh/mlr-org/mlr3filters/branch/master/graph/badge.svg)](https://codecov.io/github/mlr-org/mlr3filters?branch=master)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
+<!-- badges: end -->
 
 ## Installation
 
@@ -33,6 +39,7 @@ remotes::install_github("mlr-org/mlr3filters")
 ### Filter Example
 
 ``` r
+set.seed(1)
 library("mlr3")
 library("mlr3filters")
 
@@ -42,7 +49,6 @@ as.data.table(filter$calculate(task))
 ```
 
     ##     feature     score
-    ##      <char>     <num>
     ## 1:  glucose 0.2927906
     ## 2:  insulin 0.2316288
     ## 3:     mass 0.1870358
@@ -54,24 +60,24 @@ as.data.table(filter$calculate(task))
 
 ### Implemented Filters
 
-| Name              | Task Type      | Feature Types                                         | Package                                                           |
-| :---------------- | :------------- | :---------------------------------------------------- | :---------------------------------------------------------------- |
-| anova             | Classif        | Integer, Numeric                                      | stats                                                             |
-| auc               | Classif        | Integer, Numeric                                      | [mlr3measures](https://cran.r-project.org/package=mlr3measures)   |
-| carscore          | Regr           | Numeric                                               | [care](https://cran.r-project.org/package=care)                   |
-| cmim              | Classif & Regr | Integer, Numeric, Factor, Ordered                     | [praznik](https://cran.r-project.org/package=praznik)             |
-| correlation       | Regr           | Integer, Numeric                                      | stats                                                             |
-| disr              | Classif        | Integer, Numeric, Factor, Ordered                     | [praznik](https://cran.r-project.org/package=praznik)             |
-| importance        | Universal      | Logical, Integer, Numeric, Character, Factor, Ordered | [rpart](https://cran.r-project.org/package=rpart)                 |
-| information\_gain | Classif & Regr | Integer, Numeric, Factor, Ordered                     | [FSelectorRcpp](https://cran.r-project.org/package=FSelectorRcpp) |
-| jmi               | Classif        | Integer, Numeric, Factor, Ordered                     | [praznik](https://cran.r-project.org/package=praznik)             |
-| jmim              | Classif        | Integer, Numeric, Factor, Ordered                     | [praznik](https://cran.r-project.org/package=praznik)             |
-| kruskal\_test     | Classif        | Integer, Numeric                                      | stats                                                             |
-| mim               | Classif        | Integer, Numeric, Factor, Ordered                     | [praznik](https://cran.r-project.org/package=praznik)             |
-| mrmr              | Classif & Regr | Numeric, Factor, Integer, Character, Logical          | [praznik](https://cran.r-project.org/package=praznik)             |
-| njmim             | Classif        | Integer, Numeric, Factor, Ordered                     | [praznik](https://cran.r-project.org/package=praznik)             |
-| performance       | Universal      | Logical, Integer, Numeric, Character, Factor, Ordered | [rpart](https://cran.r-project.org/package=rpart)                 |
-| variance          | Classif & Regr | Integer, Numeric                                      | stats                                                             |
+| Name              | Task Type      | Feature Types                                | Package                                                           |
+| :---------------- | :------------- | :------------------------------------------- | :---------------------------------------------------------------- |
+| anova             | Classif        | Integer, Numeric                             | stats                                                             |
+| auc               | Classif        | Integer, Numeric                             | [mlr3measures](https://cran.r-project.org/package=mlr3measures)   |
+| carscore          | Regr           | Numeric                                      | [care](https://cran.r-project.org/package=care)                   |
+| cmim              | Classif & Regr | Integer, Numeric, Factor, Ordered            | [praznik](https://cran.r-project.org/package=praznik)             |
+| correlation       | Regr           | Integer, Numeric                             | stats                                                             |
+| disr              | Classif        | Integer, Numeric, Factor, Ordered            | [praznik](https://cran.r-project.org/package=praznik)             |
+| importance        | Universal      | Logical, Integer, Numeric, Factor, Ordered   | [rpart](https://cran.r-project.org/package=rpart)                 |
+| information\_gain | Classif & Regr | Integer, Numeric, Factor, Ordered            | [FSelectorRcpp](https://cran.r-project.org/package=FSelectorRcpp) |
+| jmi               | Classif        | Integer, Numeric, Factor, Ordered            | [praznik](https://cran.r-project.org/package=praznik)             |
+| jmim              | Classif        | Integer, Numeric, Factor, Ordered            | [praznik](https://cran.r-project.org/package=praznik)             |
+| kruskal\_test     | Classif        | Integer, Numeric                             | stats                                                             |
+| mim               | Classif        | Integer, Numeric, Factor, Ordered            | [praznik](https://cran.r-project.org/package=praznik)             |
+| mrmr              | Classif & Regr | Numeric, Factor, Integer, Character, Logical | [praznik](https://cran.r-project.org/package=praznik)             |
+| njmim             | Classif        | Integer, Numeric, Factor, Ordered            | [praznik](https://cran.r-project.org/package=praznik)             |
+| performance       | Universal      | Logical, Integer, Numeric, Factor, Ordered   | [rpart](https://cran.r-project.org/package=rpart)                 |
+| variance          | Classif & Regr | Integer, Numeric                             | stats                                                             |
 
 ### Variable Importance Filters
 
@@ -79,8 +85,8 @@ The following learners allow the extraction of variable importance and
 therefore are supported by `FilterImportance`:
 
     ## [1] "classif.featureless" "classif.ranger"      "classif.rpart"      
-    ## [4] "classif.xgboost"     "regr.featureless"    "regr.lm"            
-    ## [7] "regr.ranger"         "regr.rpart"          "regr.xgboost"
+    ## [4] "classif.xgboost"     "regr.featureless"    "regr.ranger"        
+    ## [7] "regr.rpart"          "regr.xgboost"
 
 If your learner is not listed here but capable of extracting variable
 importance from the fitted model, the reason is most likely that it is
@@ -91,7 +97,7 @@ issue so we can add your package.
 
 Some learners need to have their variable importance measure “activated”
 during learner creation. For example, to use the “impurity” measure of
-Random Forest via the *ranger* package:
+Random Forest via the {ranger} package:
 
 ``` r
 task = tsk("iris")
@@ -103,11 +109,10 @@ filter$calculate(task)
 head(as.data.table(filter), 3)
 ```
 
-    ##         feature     score
-    ##          <char>     <num>
-    ## 1:  Petal.Width 44.588117
-    ## 2: Petal.Length 42.501367
-    ## 3: Sepal.Length  9.898418
+    ##         feature    score
+    ## 1:  Petal.Width 43.66496
+    ## 2: Petal.Length 43.10837
+    ## 3: Sepal.Length 10.21944
 
 ### Performance Filter
 
