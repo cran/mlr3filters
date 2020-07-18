@@ -15,7 +15,8 @@
 #' filter = flt("cmim")
 #' filter$calculate(task, nfeat = 2)
 #' as.data.table(filter)
-FilterCMIM = R6Class("FilterCMIM", inherit = Filter,
+FilterCMIM = R6Class("FilterCMIM",
+  inherit = Filter,
 
   public = list(
 
@@ -47,7 +48,8 @@ FilterCMIM = R6Class("FilterCMIM", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_cmim"
       )
     }
   ),

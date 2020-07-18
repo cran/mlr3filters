@@ -2,9 +2,12 @@
 % Please edit documentation in R/flt.R
 \name{flt}
 \alias{flt}
+\alias{flts}
 \title{Syntactic Sugar for Filter Construction}
 \usage{
 flt(.key, ...)
+
+flts(.keys, ...)
 }
 \arguments{
 \item{.key}{(\code{character(1)})\cr
@@ -13,13 +16,17 @@ Key passed to the respective \link[mlr3misc:Dictionary]{dictionary} to retrieve 
 \item{...}{(named \code{list()})\cr
 Named arguments passed to the constructor, to be set as parameters in the \link[paradox:ParamSet]{paradox::ParamSet}, or to be set as public field.
 See \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_get()}} for more details.}
+
+\item{.keys}{(\code{character()})\cr
+Keys passed to the respective \link[mlr3misc:Dictionary]{dictionary} to retrieve multiple objects.}
 }
 \value{
 \link{Filter}.
 }
 \description{
-This function complements \link{mlr_filters} with a function in the spirit of \link[mlr3:mlr_sugar]{mlr3::mlr_sugar}.
+These functions complements \link{mlr_filters} with a function in the spirit of \link[mlr3:mlr_sugar]{mlr3::mlr_sugar}.
 }
 \examples{
 flt("correlation", method = "kendall")
+flts(c("mrmr", "jmim"))
 }

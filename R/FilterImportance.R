@@ -1,6 +1,6 @@
 #' @title Filter for Embedded Feature Selection via Variable Importance
 #'
-#' @name mlr_filters_variable_importance
+#' @name mlr_filters_importance
 #'
 #' @description Variable Importance filter using embedded feature selection of
 #' machine learning algorithms. Takes a [mlr3::Learner] which is capable of
@@ -16,7 +16,8 @@
 #' filter = flt("importance", learner = learner)
 #' filter$calculate(task)
 #' as.data.table(filter)
-FilterImportance = R6Class("FilterImportance", inherit = Filter,
+FilterImportance = R6Class("FilterImportance",
+  inherit = Filter,
 
   public = list(
 
@@ -55,13 +56,13 @@ FilterImportance = R6Class("FilterImportance", inherit = Filter,
         task_type = task_type,
         feature_types = feature_types,
         packages = packages,
-        param_set = param_set
+        param_set = param_set,
+        man = "mlr3filters::mlr_filters_importance"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
       learner = self$learner$clone(deep = TRUE)
       learner = learner$train(task = task)

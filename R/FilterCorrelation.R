@@ -21,7 +21,8 @@
 #' filter$param_set$values = list("method" = "spearman")
 #' filter$calculate(task)
 #' as.data.table(filter)
-FilterCorrelation = R6Class("FilterCorrelation", inherit = Filter,
+FilterCorrelation = R6Class("FilterCorrelation",
+  inherit = Filter,
 
   public = list(
 
@@ -44,10 +45,13 @@ FilterCorrelation = R6Class("FilterCorrelation", inherit = Filter,
     initialize = function(id = "correlation",
       task_type = "regr",
       param_set = ParamSet$new(list(
-        ParamFct$new("use", default = "everything",
-          levels = c("everything", "all.obs", "complete.obs", "na.or.complete",
+        ParamFct$new("use",
+          default = "everything",
+          levels = c(
+            "everything", "all.obs", "complete.obs", "na.or.complete",
             "pairwise.complete.obs")),
-        ParamFct$new("method", default = "pearson",
+        ParamFct$new("method",
+          default = "pearson",
           levels = c("pearson", "kendall", "spearman"))
       )),
       packages = "stats",
@@ -57,13 +61,13 @@ FilterCorrelation = R6Class("FilterCorrelation", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_correlation"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
       fn = task$feature_names
       pv = self$param_set$values

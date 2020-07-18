@@ -2,7 +2,7 @@
 #'
 #' @name mlr_filters_variance
 #'
-#' @description Variance filter calling [stats::var()].
+#' @description Variance filter calling `stats::var()`.
 #'
 #' Argument `na.rm` defaults to `TRUE` here.
 #'
@@ -15,7 +15,8 @@
 #' filter$calculate(task)
 #' head(filter$scores, 3)
 #' as.data.table(filter)
-FilterVariance = R6Class("FilterVariance", inherit = Filter,
+FilterVariance = R6Class("FilterVariance",
+  inherit = Filter,
 
   public = list(
 
@@ -47,17 +48,17 @@ FilterVariance = R6Class("FilterVariance", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_variance"
       )
       self$param_set$values = list(na.rm = TRUE)
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
-      na.rm = self$param_set$values$na.rm %??% TRUE
-      map_dbl(task$data(cols = task$feature_names), var, na.rm = na.rm)
+      na_rm = self$param_set$values$na.rm %??% TRUE
+      map_dbl(task$data(cols = task$feature_names), var, na.rm = na_rm)
     }
   )
 )

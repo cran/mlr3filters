@@ -15,7 +15,8 @@
 #' filter = flt("mrmr")
 #' filter$calculate(task, nfeat = 2)
 #' as.data.table(filter)
-FilterMRMR = R6Class("FilterMRMR", inherit = Filter,
+FilterMRMR = R6Class("FilterMRMR",
+  inherit = Filter,
 
   public = list(
 
@@ -47,13 +48,13 @@ FilterMRMR = R6Class("FilterMRMR", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_mrmr"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
       threads = self$param_set$values$threads %??% 0L
       X = task$data(cols = task$feature_names)

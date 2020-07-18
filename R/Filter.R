@@ -23,13 +23,17 @@
 #' @export
 Filter = R6Class("Filter",
   public = list(
-
     id = NULL,
     task_type = NULL,
     task_properties = NULL,
     param_set = NULL,
     feature_types = NULL,
     packages = NULL,
+
+    #' @field man (`character(1)`)\cr
+    #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+    #'   Defaults to `NA`, but can be set by child classes.
+    man = NULL,
 
     #' @field scores
     #'   Stores the calculated filter score values as named numeric vector.
@@ -58,21 +62,29 @@ Filter = R6Class("Filter",
     #'   Set of required packages.
     #'   Note that these packages will be loaded via [requireNamespace()], and
     #'   are not attached.
+    #' @param man (`character(1)`)\cr
+    #'   String in the format `[pkg]::[topic]` pointing to a manual page for
+    #'   this object. The referenced help package can be opened via method
+    #'   `$help()`.
     initialize = function(id, task_type, task_properties = character(),
       param_set = ParamSet$new(), feature_types = character(),
-      packages = character()) {
+      packages = character(), man = NA_character_) {
 
       self$id = assert_string(id)
       self$task_type = assert_subset(task_type, mlr_reflections$task_types$type,
         empty.ok = FALSE)
-      self$task_properties = assert_subset(task_properties,
+      self$task_properties = assert_subset(
+        task_properties,
         unlist(mlr_reflections$task_properties, use.names = FALSE))
       self$param_set = assert_param_set(param_set)
-      self$feature_types = assert_subset(feature_types,
+      self$feature_types = assert_subset(
+        feature_types,
         mlr_reflections$task_feature_types)
-      self$packages = assert_character(packages, any.missing = FALSE,
+      self$packages = assert_character(packages,
+        any.missing = FALSE,
         unique = TRUE)
       self$scores = set_names(numeric(), character())
+      self$man = assert_string(man, na.ok = TRUE)
     },
 
     #' @description
@@ -90,9 +102,16 @@ Filter = R6Class("Filter",
       catf(str_indent("Packages:", self$packages))
       catf(str_indent("Feature types:", self$feature_types))
       if (length(self$scores)) {
-        print(as.data.table(self), nrows = 10L, topn = 5L, class = FALSE,
+        print(as.data.table(self),
+          nrows = 10L, topn = 5L, class = FALSE,
           row.names = TRUE, print.keys = FALSE) # nocov end
       }
+    },
+
+    #' @description
+    #' Opens the corresponding help page referenced by field `$man`.
+    help = function() {
+      open_help(self$man) # nocov
     },
 
     #' @description
@@ -107,7 +126,8 @@ Filter = R6Class("Filter",
     #' @param nfeat ([integer()])\cr
     #'   THe minimum number of features to calculate filter scores for.
     calculate = function(task, nfeat = NULL) {
-      task = assert_task(as_task(task), feature_types = self$feature_types,
+      task = assert_task(as_task(task),
+        feature_types = self$feature_types,
         task_properties = self$task_properties)
       fn = task$feature_names
 
@@ -140,6 +160,6 @@ Filter = R6Class("Filter",
 )
 
 #' @export
-as.data.table.Filter = function(x, ...) {
-  enframe(x$scores, name = "feature", value = "score")
+as.data.table.Filter = function(x, ...) { # nolint
+  mlr3misc::enframe(x$scores, name = "feature", value = "score")
 }

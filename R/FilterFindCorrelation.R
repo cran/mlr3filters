@@ -29,7 +29,8 @@
 #' filter = flt("find_correlation", method = "spearman")
 #' filter$calculate(task)
 #' as.data.table(filter)
-FilterFindCorrelation = R6Class("FilterFindCorrelation", inherit = Filter,
+FilterFindCorrelation = R6Class("FilterFindCorrelation",
+  inherit = Filter,
 
   public = list(
 
@@ -52,10 +53,13 @@ FilterFindCorrelation = R6Class("FilterFindCorrelation", inherit = Filter,
     initialize = function(id = "find_correlation",
       task_type = c("classif", "regr"),
       param_set = ParamSet$new(list(
-        ParamFct$new("use", default = "everything",
-          levels = c("everything", "all.obs", "complete.obs", "na.or.complete",
+        ParamFct$new("use",
+          default = "everything",
+          levels = c(
+            "everything", "all.obs", "complete.obs", "na.or.complete",
             "pairwise.complete.obs")),
-        ParamFct$new("method", default = "pearson",
+        ParamFct$new("method",
+          default = "pearson",
           levels = c("pearson", "kendall", "spearman"))
       )),
       packages = "stats",
@@ -65,13 +69,13 @@ FilterFindCorrelation = R6Class("FilterFindCorrelation", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_find_correlation"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
 
       fn = task$feature_names

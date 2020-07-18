@@ -20,7 +20,8 @@
 #'
 #' # transform to p-value
 #' 10^(-filter$scores)
-FilterKruskalTest = R6Class("FilterKruskalTest", inherit = Filter,
+FilterKruskalTest = R6Class("FilterKruskalTest",
+  inherit = Filter,
 
   public = list(
 
@@ -43,7 +44,8 @@ FilterKruskalTest = R6Class("FilterKruskalTest", inherit = Filter,
     initialize = function(id = "kruskal_test",
       task_type = "classif",
       param_set = ParamSet$new(list(
-        ParamFct$new("na.action", default = "na.omit",
+        ParamFct$new("na.action",
+          default = "na.omit",
           levels = c("na.omit", "na.fail", "na.exclude", "na.pass"))
       )),
       packages = "stats",
@@ -53,21 +55,21 @@ FilterKruskalTest = R6Class("FilterKruskalTest", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_kruskal_test"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
-      na.action = self$param_set$values$na.action %??%
+      na_action = self$param_set$values$na.action %??%
         self$param_set$default$na.action
 
       data = task$data(cols = task$feature_names)
       g = task$truth()
       -log10(map_dbl(data, function(x) {
-        kruskal.test(x = x, g = g, na.action = na.action)$p.value
+        kruskal.test(x = x, g = g, na.action = na_action)$p.value
       }))
     }
   )

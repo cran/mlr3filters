@@ -28,7 +28,8 @@
 #' filterGR$param_set$values = list("type" = "gainratio")
 #' filterGR$calculate(task)
 #' head(as.data.table(filterGR), 3)
-FilterInformationGain = R6Class("FilterInformationGain", inherit = Filter,
+FilterInformationGain = R6Class("FilterInformationGain",
+  inherit = Filter,
 
   public = list(
 
@@ -51,7 +52,8 @@ FilterInformationGain = R6Class("FilterInformationGain", inherit = Filter,
     initialize = function(id = "information_gain",
       task_type = c("classif", "regr"),
       param_set = ParamSet$new(list(
-        ParamFct$new("type", levels = c("infogain", "gainratio", "symuncert"),
+        ParamFct$new("type",
+          levels = c("infogain", "gainratio", "symuncert"),
           default = "infogain"),
         ParamLgl$new("equal", default = FALSE),
         ParamLgl$new("discIntegers", default = TRUE),
@@ -64,13 +66,13 @@ FilterInformationGain = R6Class("FilterInformationGain", inherit = Filter,
         task_type = task_type,
         param_set = param_set,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_information_gain"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
       pv = self$param_set$values
       pv$type = pv$type %??% "infogain"

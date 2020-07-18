@@ -17,7 +17,8 @@
 #' filter = flt("auc")
 #' filter$calculate(task)
 #' head(as.data.table(filter), 3)
-FilterAUC = R6Class("FilterAUC", inherit = Filter,
+FilterAUC = R6Class("FilterAUC",
+  inherit = Filter,
 
   public = list(
 
@@ -52,13 +53,13 @@ FilterAUC = R6Class("FilterAUC", inherit = Filter,
         task_type = task_type,
         task_properties = task_properties,
         feature_types = feature_types,
-        packages = packages
+        packages = packages,
+        man = "mlr3filters::mlr_filters_auc"
       )
     }
   ),
 
   private = list(
-
     .calculate = function(task, nfeat) {
       y = task$truth() == task$positive
       x = task$data(cols = task$feature_names)
