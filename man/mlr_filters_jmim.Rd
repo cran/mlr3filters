@@ -10,6 +10,11 @@ Minimal joint mutual information maximisation filter calling
 
 This filter supports partial scoring (see \link{Filter}).
 }
+\details{
+As the scores calculated by the \CRANpkg{praznik} package are not monotone due
+to the greedy forward fashion, the returned scores simply reflect the selection order:
+\code{1}, \code{(k-1)/k}, ..., \code{1/k} where \code{k} is the number of selected features.
+}
 \examples{
 task = mlr3::tsk("iris")
 filter = flt("jmim")
@@ -37,6 +42,7 @@ Other Filter:
 \code{\link{mlr_filters_njmim}},
 \code{\link{mlr_filters_performance}},
 \code{\link{mlr_filters_permutation}},
+\code{\link{mlr_filters_relief}},
 \code{\link{mlr_filters_variance}},
 \code{\link{mlr_filters}}
 }
@@ -67,40 +73,9 @@ Other Filter:
 \subsection{Method \code{new()}}{
 Create a FilterJMIM object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FilterJMIM$new(
-  id = "jmim",
-  task_type = "classif",
-  param_set = ParamSet$new(list(ParamInt$new("threads", lower = 0L, default = 0L))),
-  packages = "praznik",
-  feature_types = c("integer", "numeric", "factor", "ordered")
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{FilterJMIM$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier for the filter.}
-
-\item{\code{task_type}}{(\code{character()})\cr
-Types of the task the filter can operator on. E.g., \code{"classif"} or
-\code{"regr"}.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
-\item{\code{packages}}{(\code{character()})\cr
-Set of required packages.
-Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and
-are not attached.}
-
-\item{\code{feature_types}}{(\code{character()})\cr
-Feature types the filter operates on.
-Must be a subset of
-\code{\link[mlr3:mlr_reflections]{mlr_reflections$task_feature_types}}.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

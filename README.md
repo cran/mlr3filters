@@ -1,23 +1,23 @@
 
 # mlr3filters
 
-Package website: [release](https://mlr3filters.mlr-org.com/) |
-[dev](https://mlr3filters.mlr-org.com/dev)
+Package website: [release](https://mlr3filters.mlr-org.com/) \|
+[dev](https://mlr3filters.mlr-org.com/dev/)
 
-{mlr3filters} adds filters, feature selection methods and embedded
-feature selection methods of algorithms to {mlr3}.
+{mlr3filters} adds feature selection filters to
+[mlr3](https://mlr3.mlr-org.com). Wrapper methods for feature selection
+are implemented in [mlr3fselect](https://mlr3fselect.mlr-org.com).
+Learners which support the extraction feature importance scores can be
+combined with a filter from this package for embedded feature selection.
 
 <!-- badges: start -->
 
 [![tic](https://github.com/mlr-org/mlr3filters/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3filters/actions)
-[![CRAN Status
-Badge](https://www.r-pkg.org/badges/version-ago/mlr3filters)](https://cran.r-project.org/package=mlr3filters)
 [![CRAN
-checks](https://cranchecks.info/badges/worst/mlr3filters)](https://cran.r-project.org/web/checks/check_results_mlr3filters.html)
-[![Coverage
-status](https://codecov.io/gh/mlr-org/mlr3filters/branch/master/graph/badge.svg)](https://codecov.io/github/mlr-org/mlr3filters?branch=master)
+Status](https://www.r-pkg.org/badges/version-ago/mlr3filters)](https://cran.r-project.org/package=mlr3filters)
 [![CodeFactor](https://www.codefactor.io/repository/github/mlr-org/mlr3filters/badge)](https://www.codefactor.io/repository/github/mlr-org/mlr3filters)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
+[![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
 ## Installation
@@ -61,7 +61,7 @@ as.data.table(filter$calculate(task))
 ### Implemented Filters
 
 | Name              | Task Type      | Feature Types                              | Package                                                           |
-| :---------------- | :------------- | :----------------------------------------- | :---------------------------------------------------------------- |
+|:------------------|:---------------|:-------------------------------------------|:------------------------------------------------------------------|
 | anova             | Classif        | Integer, Numeric                           | stats                                                             |
 | auc               | Classif        | Integer, Numeric                           | [mlr3measures](https://cran.r-project.org/package=mlr3measures)   |
 | carscore          | Regr           | Numeric                                    | [care](https://cran.r-project.org/package=care)                   |
@@ -86,9 +86,9 @@ as.data.table(filter$calculate(task))
 The following learners allow the extraction of variable importance and
 therefore are supported by `FilterImportance`:
 
-    ## [1] "classif.featureless" "classif.ranger"      "classif.rpart"      
-    ## [4] "classif.xgboost"     "regr.featureless"    "regr.ranger"        
-    ## [7] "regr.rpart"          "regr.xgboost"
+    ##  [1] "classif.featureless" "classif.ranger"      "classif.rpart"       "classif.xgboost"    
+    ##  [5] "regr.featureless"    "regr.ranger"         "regr.rpart"          "regr.xgboost"       
+    ##  [9] "surv.ranger"         "surv.xgboost"
 
 If your learner is not listed here but capable of extracting variable
 importance from the fitted model, the reason is most likely that it is

@@ -19,6 +19,7 @@
 #' get a score. Additional features may be ignored for computational reasons,
 #' and then get a score value of `NA`.
 #'
+#' @importFrom stats runif
 #' @family Filter
 #' @export
 Filter = R6Class("Filter",
@@ -38,7 +39,8 @@ Filter = R6Class("Filter",
     #' @field scores
     #'   Stores the calculated filter score values as named numeric vector.
     #'   The vector is sorted in decreasing order with possible `NA` values
-    #'   last. Tied values (this includes `NA` values) appear in a random,
+    #'   last. The more important the feature, the higher the score.
+    #'   Tied values (this includes `NA` values) appear in a random,
     #'   non-deterministic order.
     scores = NULL,
 
