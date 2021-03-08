@@ -1,3 +1,13 @@
+# mlr3filters 0.4.1
+
+- Disable threading in praznik filters by default (5f24742e9b92f6a5f828c4f755be3fb53427afdb, @mllg)
+  Enable by setting hyperparameter `threads` >= 2 or to `0` for auto-detection of available cores (#93, @mllg)
+- Document return type of private `.calculate()` (#92, @mllg)
+- Allow `NA` in returned vectors.
+  Features with missing values as well as features with no calculated score are automatically ranked last, in a random order.  (#92, @mllg)
+- praznik filters now also support `regr` Tasks (#90, @bommert)
+
+
 # mlr3filters 0.4.0
 
 - Add ReliefF filter (#86)
