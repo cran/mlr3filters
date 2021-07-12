@@ -137,6 +137,7 @@ Filter = R6Class("Filter",
       task = assert_task(as_task(task),
         feature_types = self$feature_types,
         task_properties = self$task_properties)
+      assert_choice(task$task_type, self$task_type)
       fn = task$feature_names
 
       if (task$nrow == 0L) {
@@ -148,6 +149,7 @@ Filter = R6Class("Filter",
           nfeat = length(fn)
         } else {
           nfeat = assert_count(nfeat, coerce = TRUE)
+          nfeat = min(nfeat, length(fn))
         }
 
         # calculate filter values using the dedicated filter

@@ -28,3 +28,17 @@ test_that("as.data.table conversion works", {
 test_that("mlr3sugar creation works", {
   expect_silent(flt("correlation", method = "kendall"))
 })
+
+test_that("Assertion of task type works", {
+  task = mlr_tasks$get("iris")
+  f = mlr_filters$get("correlation")
+  expect_error(f$calculate(task), regexp = "Must be element of set \\{'regr'\\}")
+})
+
+
+test_that("nfeat is passed to praznik correctly", {
+  task = tsk("iris")
+  f = flt("disr")
+  f$calculate(task, nfeat = 1)
+  expect_equal(sum(!is.na(f$scores)), 1)
+})

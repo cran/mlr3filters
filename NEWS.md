@@ -1,3 +1,10 @@
+<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+
+# mlr3filters 0.4.2
+
+- Fixes an issue where argument `nfeat` was not passed down to {praznik} filters (#97)
+
+
 # mlr3filters 0.4.1
 
 - Disable threading in praznik filters by default (5f24742e9b92f6a5f828c4f755be3fb53427afdb, @mllg)
