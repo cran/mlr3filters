@@ -6,6 +6,11 @@
 #'
 #' Argument `na.rm` defaults to `TRUE` here.
 #'
+#' @references
+#' For a benchmark of filter methods:
+#'
+#' `r format_bib("bommert_2020")`
+#'
 #' @family Filter
 #' @importFrom stats var
 #' @template seealso_filter
@@ -23,14 +28,14 @@ FilterVariance = R6Class("FilterVariance",
 
     #' @description Create a FilterVariance object.
     initialize = function() {
-      param_set = ParamSet$new(list(
-        ParamLgl$new("na.rm", default = TRUE)
-      ))
+      param_set = ps(
+        na.rm = p_lgl(default = TRUE)
+      )
       self$param_set$values = list(na.rm = TRUE)
 
       super$initialize(
         id = "variance",
-        task_type = c("classif", "regr"),
+        task_type = NA_character_,
         param_set = param_set,
         packages = "stats",
         feature_types = c("integer", "numeric"),

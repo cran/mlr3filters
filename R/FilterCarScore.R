@@ -2,7 +2,7 @@
 #'
 #' @name mlr_filters_carscore
 #'
-#' @description Calculates the Correlation-Adjusted (marginal) coRelation scores
+#' @description Calculates the Correlation-Adjusted (marginal) coRrelation scores
 #' (short CAR scores) implemented in [care::carscore()] in package
 #' \CRANpkg{care}. The CAR scores for a set of features are defined as the
 #' correlations between the target and the decorrelated features. The filter
@@ -30,10 +30,10 @@ FilterCarScore = R6Class("FilterCarScore",
   public = list(
     #' @description Create a FilterCarScore object.
     initialize = function() {
-      param_set = ParamSet$new(list(
-        ParamDbl$new("lambda", lower = 0, upper = 1, default = NO_DEF),
-        ParamLgl$new("diagonal", default = FALSE),
-        ParamLgl$new("verbose", default = TRUE))
+      param_set = ps(
+        lambda   = p_dbl(lower = 0, upper = 1, default = NO_DEF),
+        diagonal = p_lgl(default = FALSE),
+        verbose  = p_lgl(default = TRUE)
       )
       param_set$values = list(verbose = FALSE)
 
