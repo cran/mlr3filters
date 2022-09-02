@@ -12,11 +12,25 @@
 #' @template seealso_filter
 #' @export
 #' @examples
-#' task = mlr3::tsk("iris")
-#' learner = mlr3::lrn("classif.rpart")
-#' filter = flt("performance", learner = learner)
-#' filter$calculate(task)
-#' as.data.table(filter)
+#' if (requireNamespace("rpart")) {
+#'   task = mlr3::tsk("iris")
+#'   learner = mlr3::lrn("classif.rpart")
+#'   filter = flt("performance", learner = learner)
+#'   filter$calculate(task)
+#'   as.data.table(filter)
+#' }
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("spam")
+#'   l = lrn("classif.rpart")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("performance", learner = l), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("classif.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterPerformance = R6Class("FilterPerformance",
   inherit = Filter,
 
@@ -36,7 +50,7 @@ FilterPerformance = R6Class("FilterPerformance",
     #'   [mlr3::Resampling] to be used within resampling.
     #' @param measure ([mlr3::Measure])\cr
     #'   [mlr3::Measure] to be used for evaluating the performance.
-    initialize = function(learner = mlr3::lrn("classif.rpart"),
+    initialize = function(learner = mlr3::lrn("classif.featureless"),
       resampling = mlr3::rsmp("holdout"), measure = NULL) {
 
       self$learner = learner = assert_learner(as_learner(learner, clone = TRUE))
@@ -51,6 +65,7 @@ FilterPerformance = R6Class("FilterPerformance",
         param_set = learner$param_set,
         feature_types = learner$feature_types,
         packages = packages,
+        label = "Predictive Performance",
         man = "mlr3filters::mlr_filters_performance"
       )
     }
@@ -63,8 +78,7 @@ FilterPerformance = R6Class("FilterPerformance",
 
       perf = map_dbl(fn, function(x) {
         task$col_roles$feature = x
-        rr = resample(task, self$learner, self$resampling)
-        rr$aggregate()
+        resample(task, self$learner, self$resampling, clone = character())$aggregate()
       })
 
       if (self$measure$minimize) {

@@ -3,27 +3,45 @@
 \name{mlr_filters_relief}
 \alias{mlr_filters_relief}
 \alias{FilterRelief}
-\title{Information Gain Filter}
+\title{RELIEF Filter}
 \description{
 Information gain filter calling
 \code{\link[FSelectorRcpp:relief]{FSelectorRcpp::relief()}} in package \CRANpkg{FSelectorRcpp}.
 }
 \examples{
-## Relief (default)
-task = mlr3::tsk("pima")
-filter = flt("relief")
-filter$calculate(task)
-head(filter$scores, 3)
-as.data.table(filter)
+if (requireNamespace("FSelectorRcpp")) {
+  ## Relief (default)
+  task = mlr3::tsk("pima")
+  filter = flt("relief")
+  filter$calculate(task)
+  head(filter$scores, 3)
+  as.data.table(filter)
+}
+
+if (mlr3misc::require_namespaces(c("mlr3pipelines", "FSelectorRcpp", "rpart"), quietly = TRUE)) {
+  library("mlr3pipelines")
+  task = mlr3::tsk("iris")
+
+  # Note: `filter.frac` is selected randomly and should be tuned.
+
+  graph = po("filter", filter = flt("relief"), filter.frac = 0.5) \%>>\%
+    po("learner", mlr3::lrn("classif.rpart"))
+
+  graph$train(task)
+}
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+\itemize{
+\item \link[mlr3pipelines:mlr_pipeops_filter]{PipeOpFilter} for filter-based feature selection.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+}
 
 Other Filter: 
 \code{\link{Filter}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
 \code{\link{mlr_filters_carscore}},
+\code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
 \code{\link{mlr_filters_correlation}},
 \code{\link{mlr_filters_disr}},
@@ -49,23 +67,23 @@ Other Filter:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{FilterRelief$new()}}
-\item \href{#method-clone}{\code{FilterRelief$clone()}}
+\item \href{#method-FilterRelief-new}{\code{FilterRelief$new()}}
+\item \href{#method-FilterRelief-clone}{\code{FilterRelief$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate">}\href{../../mlr3filters/html/Filter.html#method-calculate}{\code{mlr3filters::Filter$calculate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format">}\href{../../mlr3filters/html/Filter.html#method-format}{\code{mlr3filters::Filter$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help">}\href{../../mlr3filters/html/Filter.html#method-help}{\code{mlr3filters::Filter$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print">}\href{../../mlr3filters/html/Filter.html#method-print}{\code{mlr3filters::Filter$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate"><a href='../../mlr3filters/html/Filter.html#method-Filter-calculate'><code>mlr3filters::Filter$calculate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format"><a href='../../mlr3filters/html/Filter.html#method-Filter-format'><code>mlr3filters::Filter$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help"><a href='../../mlr3filters/html/Filter.html#method-Filter-help'><code>mlr3filters::Filter$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print"><a href='../../mlr3filters/html/Filter.html#method-Filter-print'><code>mlr3filters::Filter$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-FilterRelief-new"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterRelief-new}{}}}
 \subsection{Method \code{new()}}{
 Create a FilterRelief object.
 \subsection{Usage}{
@@ -74,8 +92,8 @@ Create a FilterRelief object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-FilterRelief-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterRelief-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

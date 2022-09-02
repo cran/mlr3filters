@@ -1,5 +1,13 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# mlr3filters 0.6.0
+
+- Add `FilterCarSurvScore` (#120, @mllg)
+- Use featureless learner instead of rpart as default learner for `FilterImportance` and `FilterPerformance` (#124)
+- Add documentation for PipeOpFilter
+- Add mlr3pipelines examples to help pages (#135, @sebffischer)
+- Add `label` arg to `Filter` class (#121, @mllg)
+
 # mlr3filters 0.5.0
 
 - Add references to benchmark paper and praznik paper (#104)

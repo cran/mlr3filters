@@ -15,28 +15,48 @@ Argument \code{equal} defaults to \code{FALSE} for classification tasks, and to
 \code{TRUE} for regression tasks.
 }
 \examples{
-## InfoGain (default)
-task = mlr3::tsk("pima")
-filter = flt("information_gain")
-filter$calculate(task)
-head(filter$scores, 3)
-as.data.table(filter)
+if (requireNamespace("FSelectorRcpp")) {
+  ## InfoGain (default)
+  task = mlr3::tsk("pima")
+  filter = flt("information_gain")
+  filter$calculate(task)
+  head(filter$scores, 3)
+  as.data.table(filter)
 
-## GainRatio
+  ## GainRatio
 
-filterGR = flt("information_gain")
-filterGR$param_set$values = list("type" = "gainratio")
-filterGR$calculate(task)
-head(as.data.table(filterGR), 3)
+  filterGR = flt("information_gain")
+  filterGR$param_set$values = list("type" = "gainratio")
+  filterGR$calculate(task)
+  head(as.data.table(filterGR), 3)
+
+}
+
+if (mlr3misc::require_namespaces(c("mlr3pipelines", "FSelectorRcpp", "rpart"), quietly = TRUE)) {
+  library("mlr3pipelines")
+  task = mlr3::tsk("spam")
+
+  # Note: `filter.frac` is selected randomly and should be tuned.
+
+  graph = po("filter", filter = flt("information_gain"), filter.frac = 0.5) \%>>\%
+    po("learner", mlr3::lrn("classif.rpart"))
+
+  graph$train(task)
+
+}
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+\itemize{
+\item \link[mlr3pipelines:mlr_pipeops_filter]{PipeOpFilter} for filter-based feature selection.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+}
 
 Other Filter: 
 \code{\link{Filter}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
 \code{\link{mlr_filters_carscore}},
+\code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
 \code{\link{mlr_filters_correlation}},
 \code{\link{mlr_filters_disr}},
@@ -62,23 +82,23 @@ Other Filter:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{FilterInformationGain$new()}}
-\item \href{#method-clone}{\code{FilterInformationGain$clone()}}
+\item \href{#method-FilterInformationGain-new}{\code{FilterInformationGain$new()}}
+\item \href{#method-FilterInformationGain-clone}{\code{FilterInformationGain$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate">}\href{../../mlr3filters/html/Filter.html#method-calculate}{\code{mlr3filters::Filter$calculate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format">}\href{../../mlr3filters/html/Filter.html#method-format}{\code{mlr3filters::Filter$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help">}\href{../../mlr3filters/html/Filter.html#method-help}{\code{mlr3filters::Filter$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print">}\href{../../mlr3filters/html/Filter.html#method-print}{\code{mlr3filters::Filter$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate"><a href='../../mlr3filters/html/Filter.html#method-Filter-calculate'><code>mlr3filters::Filter$calculate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format"><a href='../../mlr3filters/html/Filter.html#method-Filter-format'><code>mlr3filters::Filter$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help"><a href='../../mlr3filters/html/Filter.html#method-Filter-help'><code>mlr3filters::Filter$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print"><a href='../../mlr3filters/html/Filter.html#method-Filter-print'><code>mlr3filters::Filter$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-FilterInformationGain-new"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterInformationGain-new}{}}}
 \subsection{Method \code{new()}}{
 Create a FilterInformationGain object.
 \subsection{Usage}{
@@ -87,8 +107,8 @@ Create a FilterInformationGain object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-FilterInformationGain-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterInformationGain-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

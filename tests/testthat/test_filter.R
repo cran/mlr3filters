@@ -32,11 +32,12 @@ test_that("mlr3sugar creation works", {
 test_that("Assertion of task type works", {
   task = mlr_tasks$get("iris")
   f = mlr_filters$get("correlation")
-  expect_error(f$calculate(task), regexp = "Must be element of set \\{'regr'\\}")
+  expect_error(f$calculate(task), regexp = "must be numeric")
 })
 
 
 test_that("nfeat is passed to praznik correctly", {
+  skip_if_not_installed("praznik")
   task = tsk("iris")
   f = flt("disr")
   f$calculate(task, nfeat = 1)

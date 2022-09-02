@@ -1,4 +1,4 @@
-#' @title Permutation Filter
+#' @title Permutation Score Filter
 #'
 #' @name mlr_filters_permutation
 #'
@@ -21,6 +21,29 @@
 #' @family Filter
 #' @template seealso_filter
 #' @export
+#' @examples
+#' if (requireNamespace("rpart")) {
+#'   learner = mlr3::lrn("classif.rpart")
+#'   resampling = mlr3::rsmp("holdout")
+#'   measure = mlr3::msr("classif.acc")
+#'   filter = flt("permutation", learner = learner, measure = measure, resampling = resampling,
+#'     nmc = 2)
+#'   task = mlr3::tsk("iris")
+#'   filter$calculate(task)
+#'   as.data.table(filter)
+#' }
+#'
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("iris")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("permutation", nmc = 2), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("classif.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterPermutation = R6Class("FilterPermutation",
   inherit = Filter,
   public = list(
@@ -39,7 +62,7 @@ FilterPermutation = R6Class("FilterPermutation",
     #'   [mlr3::Resampling] to be used within resampling.
     #' @param measure ([mlr3::Measure])\cr
     #'   [mlr3::Measure] to be used for evaluating the performance.
-    initialize = function(learner = mlr3::lrn("classif.rpart"), resampling = mlr3::rsmp("holdout"),
+    initialize = function(learner = mlr3::lrn("classif.featureless"), resampling = mlr3::rsmp("holdout"),
       measure = NULL) {
 
       param_set = ps(
@@ -59,6 +82,7 @@ FilterPermutation = R6Class("FilterPermutation",
         feature_types = learner$feature_types,
         packages = packages,
         param_set = param_set,
+        label = "Permutation Score",
         man = "mlr3filters::mlr_filters_performance"
       )
     }

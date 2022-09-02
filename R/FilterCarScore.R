@@ -1,4 +1,4 @@
-#' @title Conditional Mutual Information Based Feature Selection Filter
+#' @title Correlation-Adjusted Marignal Correlation Score Filter
 #'
 #' @name mlr_filters_carscore
 #'
@@ -14,16 +14,30 @@
 #' @template seealso_filter
 #' @export
 #' @examples
-#' task = mlr3::tsk("mtcars")
-#' filter = flt("carscore")
-#' filter$calculate(task)
-#' head(as.data.table(filter), 3)
+#' if (requireNamespace("care")) {
+#'   task = mlr3::tsk("mtcars")
+#'   filter = flt("carscore")
+#'   filter$calculate(task)
+#'   head(as.data.table(filter), 3)
 #'
-#' ## changing filter settings
-#' filter = flt("carscore")
-#' filter$param_set$values = list("diagonal" = TRUE)
-#' filter$calculate(task)
-#' head(as.data.table(filter), 3)
+#'   ## changing the filter settings
+#'   filter = flt("carscore")
+#'   filter$param_set$values = list("diagonal" = TRUE)
+#'   filter$calculate(task)
+#'   head(as.data.table(filter), 3)
+#' }
+#'
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "care", "rpart"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("mtcars")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("carscore"), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("regr.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterCarScore = R6Class("FilterCarScore",
   inherit = Filter,
 
@@ -43,6 +57,7 @@ FilterCarScore = R6Class("FilterCarScore",
         param_set = param_set,
         feature_types = "numeric",
         packages = "care",
+        label = "Correlation-Adjusted coRrelation Score",
         man = "mlr3filters::mlr_filters_carscore"
       )
     }

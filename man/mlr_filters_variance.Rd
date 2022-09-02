@@ -15,6 +15,18 @@ filter = flt("variance")
 filter$calculate(task)
 head(filter$scores, 3)
 as.data.table(filter)
+
+if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) {
+  library("mlr3pipelines")
+  task = mlr3::tsk("spam")
+
+  # Note: `filter.frac` is selected randomly and should be tuned.
+
+  graph = po("filter", filter = flt("variance"), filter.frac = 0.5) \%>>\%
+    po("learner", mlr3::lrn("classif.rpart"))
+
+  graph$train(task)
+}
 }
 \references{
 For a benchmark of filter methods:
@@ -25,13 +37,17 @@ Bommert A, Sun X, Bischl B, Rahnenführer J, Lang M (2020).
 \doi{10.1016/j.csda.2019.106839}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+\itemize{
+\item \link[mlr3pipelines:mlr_pipeops_filter]{PipeOpFilter} for filter-based feature selection.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+}
 
 Other Filter: 
 \code{\link{Filter}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
 \code{\link{mlr_filters_carscore}},
+\code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
 \code{\link{mlr_filters_correlation}},
 \code{\link{mlr_filters_disr}},
@@ -57,23 +73,23 @@ Other Filter:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{FilterVariance$new()}}
-\item \href{#method-clone}{\code{FilterVariance$clone()}}
+\item \href{#method-FilterVariance-new}{\code{FilterVariance$new()}}
+\item \href{#method-FilterVariance-clone}{\code{FilterVariance$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate">}\href{../../mlr3filters/html/Filter.html#method-calculate}{\code{mlr3filters::Filter$calculate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format">}\href{../../mlr3filters/html/Filter.html#method-format}{\code{mlr3filters::Filter$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help">}\href{../../mlr3filters/html/Filter.html#method-help}{\code{mlr3filters::Filter$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print">}\href{../../mlr3filters/html/Filter.html#method-print}{\code{mlr3filters::Filter$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate"><a href='../../mlr3filters/html/Filter.html#method-Filter-calculate'><code>mlr3filters::Filter$calculate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format"><a href='../../mlr3filters/html/Filter.html#method-Filter-format'><code>mlr3filters::Filter$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help"><a href='../../mlr3filters/html/Filter.html#method-Filter-help'><code>mlr3filters::Filter$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print"><a href='../../mlr3filters/html/Filter.html#method-Filter-print'><code>mlr3filters::Filter$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-FilterVariance-new"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterVariance-new}{}}}
 \subsection{Method \code{new()}}{
 Create a FilterVariance object.
 \subsection{Usage}{
@@ -82,8 +98,8 @@ Create a FilterVariance object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-FilterVariance-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterVariance-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

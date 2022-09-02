@@ -1,4 +1,4 @@
-#' @title Conditional Mutual Information Based Feature Selection Filter
+#' @title Mutual Information Maximization Filter
 #'
 #' @name mlr_filters_mim
 #'
@@ -19,10 +19,24 @@
 #' @template seealso_filter
 #' @export
 #' @examples
-#' task = mlr3::tsk("iris")
-#' filter = flt("mim")
-#' filter$calculate(task, nfeat = 2)
-#' as.data.table(filter)
+#' if (requireNamespace("praznik")) {
+#'   task = mlr3::tsk("iris")
+#'   filter = flt("mim")
+#'   filter$calculate(task, nfeat = 2)
+#'   as.data.table(filter)
+#' }
+#'
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart", "praznik"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("spam")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("mim"), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("classif.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterMIM = R6Class("FilterMIM",
   inherit = Filter,
 
@@ -41,6 +55,7 @@ FilterMIM = R6Class("FilterMIM",
         param_set = param_set,
         packages = "praznik",
         feature_types = c("integer", "numeric", "factor", "ordered"),
+        label = "Mutual Information Maximization",
         man = "mlr3filters::mlr_filters_mim"
       )
     }

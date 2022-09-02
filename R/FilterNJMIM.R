@@ -1,8 +1,8 @@
-#' @title Minimal Normalised Joint Mutual Information Maximisation Filter
+#' @title Minimal Normalised Joint Mutual Information Maximization Filter
 #'
 #' @name mlr_filters_njmim
 #'
-#' @description Minimal normalised joint mutual information maximisation filter
+#' @description Minimal normalised joint mutual information maximization filter
 #' calling [praznik::NJMIM()] from package \CRANpkg{praznik}.
 #'
 #' This filter supports partial scoring (see [Filter]).
@@ -19,10 +19,24 @@
 #' @template seealso_filter
 #' @export
 #' @examples
-#' task = mlr3::tsk("iris")
-#' filter = flt("njmim")
-#' filter$calculate(task, nfeat = 2)
-#' as.data.table(filter)
+#' if (requireNamespace("praznik")) {
+#'   task = mlr3::tsk("iris")
+#'   filter = flt("njmim")
+#'   filter$calculate(task, nfeat = 2)
+#'   as.data.table(filter)
+#' }
+#'
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart", "praznik"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("spam")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("njmim"), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("classif.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterNJMIM = R6Class("FilterNJMIM",
   inherit = Filter,
 
@@ -40,6 +54,7 @@ FilterNJMIM = R6Class("FilterNJMIM",
         param_set = param_set,
         packages = "praznik",
         feature_types = c("integer", "numeric", "factor", "ordered"),
+        label = "Minimal Normalised Joint Mutual Information Maximization",
         man = "mlr3filters::mlr_filters_njmim"
       )
     }

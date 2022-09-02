@@ -19,10 +19,24 @@
 #' @template seealso_filter
 #' @export
 #' @examples
-#' task = mlr3::tsk("iris")
-#' filter = flt("disr")
-#' filter$calculate(task)
-#' as.data.table(filter)
+#' if (requireNamespace("praznik")) {
+#'   task = mlr3::tsk("iris")
+#'   filter = flt("disr")
+#'   filter$calculate(task)
+#'   as.data.table(filter)
+#' }
+#'
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart", "praznik"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("spam")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("disr"), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("classif.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterDISR = R6Class("FilterDISR",
   inherit = Filter,
 
@@ -41,6 +55,7 @@ FilterDISR = R6Class("FilterDISR",
         param_set = param_set,
         feature_types = c("integer", "numeric", "factor", "ordered"),
         packages = "praznik",
+        label = "Double Input Symmetrical Relevance",
         man = "mlr3filters::mlr_filters_disr"
       )
     }

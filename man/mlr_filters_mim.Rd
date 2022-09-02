@@ -3,7 +3,7 @@
 \name{mlr_filters_mim}
 \alias{mlr_filters_mim}
 \alias{FilterMIM}
-\title{Conditional Mutual Information Based Feature Selection Filter}
+\title{Mutual Information Maximization Filter}
 \description{
 Conditional mutual information based feature selection filter
 calling \code{\link[praznik:MIM]{praznik::MIM()}} in package \CRANpkg{praznik}.
@@ -20,10 +20,24 @@ Set to a number \verb{>= 2} to enable threading, or to \code{0} for auto-detecti
 of available cores.
 }
 \examples{
-task = mlr3::tsk("iris")
-filter = flt("mim")
-filter$calculate(task, nfeat = 2)
-as.data.table(filter)
+if (requireNamespace("praznik")) {
+  task = mlr3::tsk("iris")
+  filter = flt("mim")
+  filter$calculate(task, nfeat = 2)
+  as.data.table(filter)
+}
+
+if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart", "praznik"), quietly = TRUE)) {
+  library("mlr3pipelines")
+  task = mlr3::tsk("spam")
+
+  # Note: `filter.frac` is selected randomly and should be tuned.
+
+  graph = po("filter", filter = flt("mim"), filter.frac = 0.5) \%>>\%
+    po("learner", mlr3::lrn("classif.rpart"))
+
+  graph$train(task)
+}
 }
 \references{
 Kursa MB (2021).
@@ -39,13 +53,17 @@ Bommert A, Sun X, Bischl B, Rahnenführer J, Lang M (2020).
 \doi{10.1016/j.csda.2019.106839}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+\itemize{
+\item \link[mlr3pipelines:mlr_pipeops_filter]{PipeOpFilter} for filter-based feature selection.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+}
 
 Other Filter: 
 \code{\link{Filter}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
 \code{\link{mlr_filters_carscore}},
+\code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
 \code{\link{mlr_filters_correlation}},
 \code{\link{mlr_filters_disr}},
@@ -71,23 +89,23 @@ Other Filter:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{FilterMIM$new()}}
-\item \href{#method-clone}{\code{FilterMIM$clone()}}
+\item \href{#method-FilterMIM-new}{\code{FilterMIM$new()}}
+\item \href{#method-FilterMIM-clone}{\code{FilterMIM$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate">}\href{../../mlr3filters/html/Filter.html#method-calculate}{\code{mlr3filters::Filter$calculate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format">}\href{../../mlr3filters/html/Filter.html#method-format}{\code{mlr3filters::Filter$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help">}\href{../../mlr3filters/html/Filter.html#method-help}{\code{mlr3filters::Filter$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print">}\href{../../mlr3filters/html/Filter.html#method-print}{\code{mlr3filters::Filter$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate"><a href='../../mlr3filters/html/Filter.html#method-Filter-calculate'><code>mlr3filters::Filter$calculate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format"><a href='../../mlr3filters/html/Filter.html#method-Filter-format'><code>mlr3filters::Filter$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help"><a href='../../mlr3filters/html/Filter.html#method-Filter-help'><code>mlr3filters::Filter$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print"><a href='../../mlr3filters/html/Filter.html#method-Filter-print'><code>mlr3filters::Filter$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-FilterMIM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterMIM-new}{}}}
 \subsection{Method \code{new()}}{
 Create a FilterMIM object.
 \subsection{Usage}{
@@ -96,8 +114,8 @@ Create a FilterMIM object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-FilterMIM-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterMIM-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

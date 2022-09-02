@@ -3,7 +3,7 @@
 \name{mlr_filters_carscore}
 \alias{mlr_filters_carscore}
 \alias{FilterCarScore}
-\title{Conditional Mutual Information Based Feature Selection Filter}
+\title{Correlation-Adjusted Marignal Correlation Score Filter}
 \description{
 Calculates the Correlation-Adjusted (marginal) coRrelation scores
 (short CAR scores) implemented in \code{\link[care:carscore]{care::carscore()}} in package
@@ -14,24 +14,42 @@ returns the absolute value of the calculated scores.
 Argument \code{verbose} defaults to \code{FALSE}.
 }
 \examples{
-task = mlr3::tsk("mtcars")
-filter = flt("carscore")
-filter$calculate(task)
-head(as.data.table(filter), 3)
+if (requireNamespace("care")) {
+  task = mlr3::tsk("mtcars")
+  filter = flt("carscore")
+  filter$calculate(task)
+  head(as.data.table(filter), 3)
 
-## changing filter settings
-filter = flt("carscore")
-filter$param_set$values = list("diagonal" = TRUE)
-filter$calculate(task)
-head(as.data.table(filter), 3)
+  ## changing the filter settings
+  filter = flt("carscore")
+  filter$param_set$values = list("diagonal" = TRUE)
+  filter$calculate(task)
+  head(as.data.table(filter), 3)
+}
+
+if (mlr3misc::require_namespaces(c("mlr3pipelines", "care", "rpart"), quietly = TRUE)) {
+  library("mlr3pipelines")
+  task = mlr3::tsk("mtcars")
+
+  # Note: `filter.frac` is selected randomly and should be tuned.
+
+  graph = po("filter", filter = flt("carscore"), filter.frac = 0.5) \%>>\%
+    po("learner", mlr3::lrn("regr.rpart"))
+
+  graph$train(task)
+}
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+\itemize{
+\item \link[mlr3pipelines:mlr_pipeops_filter]{PipeOpFilter} for filter-based feature selection.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Filter]{Filters}: \link{mlr_filters}
+}
 
 Other Filter: 
 \code{\link{Filter}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
+\code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
 \code{\link{mlr_filters_correlation}},
 \code{\link{mlr_filters_disr}},
@@ -58,23 +76,23 @@ Other Filter:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{FilterCarScore$new()}}
-\item \href{#method-clone}{\code{FilterCarScore$clone()}}
+\item \href{#method-FilterCarScore-new}{\code{FilterCarScore$new()}}
+\item \href{#method-FilterCarScore-clone}{\code{FilterCarScore$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate">}\href{../../mlr3filters/html/Filter.html#method-calculate}{\code{mlr3filters::Filter$calculate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format">}\href{../../mlr3filters/html/Filter.html#method-format}{\code{mlr3filters::Filter$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help">}\href{../../mlr3filters/html/Filter.html#method-help}{\code{mlr3filters::Filter$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print">}\href{../../mlr3filters/html/Filter.html#method-print}{\code{mlr3filters::Filter$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="calculate"><a href='../../mlr3filters/html/Filter.html#method-Filter-calculate'><code>mlr3filters::Filter$calculate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="format"><a href='../../mlr3filters/html/Filter.html#method-Filter-format'><code>mlr3filters::Filter$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="help"><a href='../../mlr3filters/html/Filter.html#method-Filter-help'><code>mlr3filters::Filter$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3filters" data-topic="Filter" data-id="print"><a href='../../mlr3filters/html/Filter.html#method-Filter-print'><code>mlr3filters::Filter$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-FilterCarScore-new"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterCarScore-new}{}}}
 \subsection{Method \code{new()}}{
 Create a FilterCarScore object.
 \subsection{Usage}{
@@ -83,8 +101,8 @@ Create a FilterCarScore object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-FilterCarScore-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-FilterCarScore-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -1,4 +1,4 @@
-#' @title Minimum redundancy maximal relevancy filter
+#' @title Minimum Redundancy Maximal Relevancy Filter
 #'
 #' @name mlr_filters_mrmr
 #'
@@ -19,10 +19,24 @@
 #' @template seealso_filter
 #' @export
 #' @examples
-#' task = mlr3::tsk("iris")
-#' filter = flt("mrmr")
-#' filter$calculate(task, nfeat = 2)
-#' as.data.table(filter)
+#' if (requireNamespace("praznik")) {
+#'   task = mlr3::tsk("iris")
+#'   filter = flt("mrmr")
+#'   filter$calculate(task, nfeat = 2)
+#'   as.data.table(filter)
+#' }
+#'
+#' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart", "praznik"), quietly = TRUE)) {
+#'   library("mlr3pipelines")
+#'   task = mlr3::tsk("spam")
+#'
+#'   # Note: `filter.frac` is selected randomly and should be tuned.
+#'
+#'   graph = po("filter", filter = flt("mrmr"), filter.frac = 0.5) %>>%
+#'     po("learner", mlr3::lrn("classif.rpart"))
+#'
+#'   graph$train(task)
+#' }
 FilterMRMR = R6Class("FilterMRMR",
   inherit = Filter,
 
@@ -41,6 +55,7 @@ FilterMRMR = R6Class("FilterMRMR",
         param_set = param_set,
         packages = "praznik",
         feature_types = c("integer", "numeric", "factor", "ordered"),
+        label = "Minimum Redundancy Maximal Relevancy",
         man = "mlr3filters::mlr_filters_mrmr"
       )
     }
