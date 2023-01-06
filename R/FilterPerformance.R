@@ -19,9 +19,10 @@
 #'   filter$calculate(task)
 #'   as.data.table(filter)
 #' }
+#'
 #' if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) {
 #'   library("mlr3pipelines")
-#'   task = mlr3::tsk("spam")
+#'   task = mlr3::tsk("iris")
 #'   l = lrn("classif.rpart")
 #'
 #'   # Note: `filter.frac` is selected randomly and should be tuned.
@@ -61,7 +62,7 @@ FilterPerformance = R6Class("FilterPerformance",
 
       super$initialize(
         id = "performance",
-        task_type = learner$task_type,
+        task_types = learner$task_type,
         param_set = learner$param_set,
         feature_types = learner$feature_types,
         packages = packages,
@@ -86,6 +87,10 @@ FilterPerformance = R6Class("FilterPerformance",
       }
 
       set_names(perf, fn)
+    },
+
+    .get_properties = function() {
+      intersect("missings", self$learner$properties)
     }
   )
 )

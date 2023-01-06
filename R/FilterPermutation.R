@@ -78,7 +78,7 @@ FilterPermutation = R6Class("FilterPermutation",
 
       super$initialize(
         id = "permutation",
-        task_type = learner$task_type,
+        task_types = learner$task_type,
         feature_types = learner$feature_types,
         packages = packages,
         param_set = param_set,
@@ -129,8 +129,13 @@ FilterPermutation = R6Class("FilterPermutation",
       }
 
       delta
+    },
+
+    .get_properties = function() {
+      intersect("missings", self$learner$properties)
     }
   )
+
 )
 
 #' @include mlr_filters.R

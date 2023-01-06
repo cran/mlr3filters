@@ -1,10 +1,10 @@
 Package: mlr3filters
 Title: Filter Based Feature Selection for 'mlr3'
-Version: 0.6.0
+Version: 0.7.0
 Authors@R: c(
-    person("Patrick", "Schratz", , "patrick.schratz@gmail.com", role = c("aut", "cre"),
+    person("Patrick", "Schratz", , "patrick.schratz@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0003-0748-6624")),
-    person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
+    person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-9754-0393")),
     person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
            comment = c(ORCID = "0000-0001-6002-6980")),
@@ -25,10 +25,9 @@ Suggests: care, caret, carSurv, FSelectorRcpp, knitr, lgr,
         mlr3learners, mlr3measures, mlr3pipelines, praznik, rpart,
         testthat (>= 3.0.0), withr
 Config/testthat/edition: 3
-Config/testthat/parallel: true
 Encoding: UTF-8
 NeedsCompilation: no
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Collate: 'Filter.R' 'mlr_filters.R' 'FilterAUC.R' 'FilterAnova.R'
         'FilterCMIM.R' 'FilterCarScore.R' 'FilterCarSurvScore.R'
         'FilterCorrelation.R' 'FilterDISR.R' 'FilterFindCorrelation.R'
@@ -38,11 +37,11 @@ Collate: 'Filter.R' 'mlr_filters.R' 'FilterAUC.R' 'FilterAnova.R'
         'FilterPermutation.R' 'FilterRelief.R'
         'FilterSelectedFeatures.R' 'FilterVariance.R' 'bibentries.R'
         'flt.R' 'helper.R' 'reexports.R' 'zzz.R'
-Packaged: 2022-09-02 18:12:31 UTC; pjs
-Author: Patrick Schratz [aut, cre] (<https://orcid.org/0000-0003-0748-6624>),
-  Michel Lang [aut] (<https://orcid.org/0000-0001-9754-0393>),
+Packaged: 2023-01-05 09:29:27 UTC; michel
+Author: Patrick Schratz [aut] (<https://orcid.org/0000-0003-0748-6624>),
+  Michel Lang [cre, aut] (<https://orcid.org/0000-0001-9754-0393>),
   Bernd Bischl [aut] (<https://orcid.org/0000-0001-6002-6980>),
   Martin Binder [aut]
-Maintainer: Patrick Schratz <patrick.schratz@gmail.com>
+Maintainer: Michel Lang <michellang@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-09-02 18:40:07 UTC
+Date/Publication: 2023-01-06 18:50:43 UTC

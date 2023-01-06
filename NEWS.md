@@ -1,4 +1,9 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+# mlr3filters 0.7.0
+
+- Features are now checked for missing values to improve error messages (#140)
+- Removed deprecated functions
+- Use featureless learner in defaults (#124)
+
 
 # mlr3filters 0.6.0
 
