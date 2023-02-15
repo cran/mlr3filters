@@ -81,6 +81,10 @@ FilterInformationGain = R6Class("FilterInformationGain",
       y = task$truth()
       scores = invoke(FSelectorRcpp::information_gain, x = x, y = y, .args = pv)
       set_names(scores$importance, scores$attributes)
+    },
+
+    .get_properties = function() {
+      "missings"
     }
   )
 )
