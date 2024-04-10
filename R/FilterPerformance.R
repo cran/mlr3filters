@@ -9,6 +9,7 @@
 #'   to be minimized.
 #'
 #' @family Filter
+#' @include FilterLearner.R
 #' @template seealso_filter
 #' @export
 #' @examples
@@ -33,7 +34,7 @@
 #'   graph$train(task)
 #' }
 FilterPerformance = R6Class("FilterPerformance",
-  inherit = Filter,
+  inherit = FilterLearner,
 
   public = list(
 
@@ -57,7 +58,7 @@ FilterPerformance = R6Class("FilterPerformance",
       self$learner = learner = assert_learner(as_learner(learner, clone = TRUE))
       self$resampling = assert_resampling(as_resampling(resampling))
       self$measure = assert_measure(as_measure(measure,
-        task_type = learner$task_type, clone = TRUE), learner = learner)
+        task_type = learner$task_type), learner = learner)
       packages = unique(c(self$learner$packages, self$measure$packages))
 
       super$initialize(
@@ -79,7 +80,8 @@ FilterPerformance = R6Class("FilterPerformance",
 
       perf = map_dbl(fn, function(x) {
         task$col_roles$feature = x
-        resample(task, self$learner, self$resampling, clone = character())$aggregate()
+        resample(task, self$learner, self$resampling, clone = character())$
+          aggregate(measures = self$measure)
       })
 
       if (self$measure$minimize) {

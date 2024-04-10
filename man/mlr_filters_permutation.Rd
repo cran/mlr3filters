@@ -54,8 +54,10 @@ if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) {
 
 Other Filter: 
 \code{\link{Filter}},
+\code{\link{mlr_filters}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
+\code{\link{mlr_filters_boruta}},
 \code{\link{mlr_filters_carscore}},
 \code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
@@ -64,8 +66,8 @@ Other Filter:
 \code{\link{mlr_filters_find_correlation}},
 \code{\link{mlr_filters_importance}},
 \code{\link{mlr_filters_information_gain}},
-\code{\link{mlr_filters_jmim}},
 \code{\link{mlr_filters_jmi}},
+\code{\link{mlr_filters_jmim}},
 \code{\link{mlr_filters_kruskal_test}},
 \code{\link{mlr_filters_mim}},
 \code{\link{mlr_filters_mrmr}},
@@ -73,12 +75,12 @@ Other Filter:
 \code{\link{mlr_filters_performance}},
 \code{\link{mlr_filters_relief}},
 \code{\link{mlr_filters_selected_features}},
-\code{\link{mlr_filters_variance}},
-\code{\link{mlr_filters}}
+\code{\link{mlr_filters_univariate_cox}},
+\code{\link{mlr_filters_variance}}
 }
 \concept{Filter}
-\section{Super class}{
-\code{\link[mlr3filters:Filter]{mlr3filters::Filter}} -> \code{FilterPermutation}
+\section{Super classes}{
+\code{\link[mlr3filters:Filter]{mlr3filters::Filter}} -> \code{mlr3filters::FilterLearner} -> \code{FilterPermutation}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -88,6 +90,19 @@ Other Filter:
 \item{\code{resampling}}{(\link[mlr3:Resampling]{mlr3::Resampling})\cr}
 
 \item{\code{measure}}{(\link[mlr3:Measure]{mlr3::Measure})\cr}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+
+\item{\code{phash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this partial object, excluding some components
+which are varied systematically during tuning (parameter values) or feature
+selection (feature names).}
 }
 \if{html}{\out{</div>}}
 }

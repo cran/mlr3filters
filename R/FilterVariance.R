@@ -12,6 +12,7 @@
 #' `r format_bib("bommert_2020")`
 #'
 #' @family Filter
+#' @include Filter.R
 #' @importFrom stats var
 #' @template seealso_filter
 #' @export
@@ -43,7 +44,7 @@ FilterVariance = R6Class("FilterVariance",
       param_set = ps(
         na.rm = p_lgl(default = TRUE)
       )
-      self$param_set$values = list(na.rm = TRUE)
+      param_set$values = list(na.rm = TRUE)
 
       super$initialize(
         id = "variance",

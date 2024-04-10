@@ -18,8 +18,10 @@ and then get a score value of \code{NA}.
 }
 \seealso{
 Other Filter: 
+\code{\link{mlr_filters}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
+\code{\link{mlr_filters_boruta}},
 \code{\link{mlr_filters_carscore}},
 \code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
@@ -28,8 +30,8 @@ Other Filter:
 \code{\link{mlr_filters_find_correlation}},
 \code{\link{mlr_filters_importance}},
 \code{\link{mlr_filters_information_gain}},
-\code{\link{mlr_filters_jmim}},
 \code{\link{mlr_filters_jmi}},
+\code{\link{mlr_filters_jmim}},
 \code{\link{mlr_filters_kruskal_test}},
 \code{\link{mlr_filters_mim}},
 \code{\link{mlr_filters_mrmr}},
@@ -38,8 +40,8 @@ Other Filter:
 \code{\link{mlr_filters_permutation}},
 \code{\link{mlr_filters_relief}},
 \code{\link{mlr_filters_selected_features}},
-\code{\link{mlr_filters_variance}},
-\code{\link{mlr_filters}}
+\code{\link{mlr_filters_univariate_cox}},
+\code{\link{mlr_filters_variance}}
 }
 \concept{Filter}
 \section{Public fields}{
@@ -92,6 +94,14 @@ Properties of the filter. Currently, only \code{"missings"} is supported.
 A filter has the property \code{"missings"}, iff the filter can handle missing values
 in the features in a graceful way. Otherwise, an assertion is thrown if missing
 values are detected.}
+
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+
+\item{\code{phash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this partial object, excluding some components
+which are varied systematically during tuning (parameter values) or feature
+selection (feature names).}
 }
 \if{html}{\out{</div>}}
 }

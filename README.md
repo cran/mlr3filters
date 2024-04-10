@@ -66,12 +66,12 @@ head(as.data.table(filter$calculate(task)))
 |:------------------|:---------------------------------------------------------|:---------------|:---------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------|
 | anova             | ANOVA F-Test                                             | Classif        | Integer, Numeric                                               | stats                                                                                                            |
 | auc               | Area Under the ROC Curve Score                           | Classif        | Integer, Numeric                                               | [mlr3measures](https://cran.r-project.org/package=mlr3measures)                                                  |
-| carscore          | Correlation-Adjusted coRrelation Score                   | Regr           | Numeric                                                        | [care](https://cran.r-project.org/package=care)                                                                  |
+| carscore          | Correlation-Adjusted coRrelation Score                   | Regr           | Logical, Integer, Numeric                                      | [care](https://cran.r-project.org/package=care)                                                                  |
 | carsurvscore      | Correlation-Adjusted coRrelation Survival Score          | Surv           | Integer, Numeric                                               | [carSurv](https://cran.r-project.org/package=carSurv), [mlr3proba](https://cran.r-project.org/package=mlr3proba) |
 | cmim              | Minimal Conditional Mutual Information Maximization      | Classif & Regr | Integer, Numeric, Factor, Ordered                              | [praznik](https://cran.r-project.org/package=praznik)                                                            |
 | correlation       | Correlation                                              | Regr           | Integer, Numeric                                               | stats                                                                                                            |
 | disr              | Double Input Symmetrical Relevance                       | Classif & Regr | Integer, Numeric, Factor, Ordered                              | [praznik](https://cran.r-project.org/package=praznik)                                                            |
-| find_correlation  | Correlation-based Score                                  | Classif & Regr | Integer, Numeric                                               | stats                                                                                                            |
+| find_correlation  | Correlation-based Score                                  | Universal      | Integer, Numeric                                               | stats                                                                                                            |
 | importance        | Importance Score                                         | Universal      | Logical, Integer, Numeric, Character, Factor, Ordered, POSIXct |                                                                                                                  |
 | information_gain  | Information Gain                                         | Classif & Regr | Integer, Numeric, Factor, Ordered                              | [FSelectorRcpp](https://cran.r-project.org/package=FSelectorRcpp)                                                |
 | jmi               | Joint Mutual Information                                 | Classif & Regr | Integer, Numeric, Factor, Ordered                              | [praznik](https://cran.r-project.org/package=praznik)                                                            |
@@ -84,6 +84,7 @@ head(as.data.table(filter$calculate(task)))
 | permutation       | Permutation Score                                        | Universal      | Logical, Integer, Numeric, Character, Factor, Ordered, POSIXct |                                                                                                                  |
 | relief            | RELIEF                                                   | Classif & Regr | Integer, Numeric, Factor, Ordered                              | [FSelectorRcpp](https://cran.r-project.org/package=FSelectorRcpp)                                                |
 | selected_features | Embedded Feature Selection                               | Universal      | Logical, Integer, Numeric, Character, Factor, Ordered, POSIXct |                                                                                                                  |
+| univariate_cox    | Univariate Cox Survival Score                            | Surv           | Integer, Numeric, Logical                                      | [survival](https://cran.r-project.org/package=survival)                                                          |
 | variance          | Variance                                                 | Universal      | Integer, Numeric                                               | stats                                                                                                            |
 
 ### Variable Importance Filters
@@ -99,8 +100,8 @@ If your learner is not listed here but capable of extracting variable
 importance from the fitted model, the reason is most likely that it is
 not yet integrated in the package
 [mlr3learners](https://github.com/mlr-org/mlr3learners) or the [extra
-learner organization](https://github.com/mlr3learners). Please open an
-issue so we can add your package.
+learner extension](https://github.com/mlr-org/mlr3extralearners).
+Please open an issue so we can add your package.
 
 Some learners need to have their variable importance measure “activated”
 during learner creation. For example, to use the “impurity” measure of
@@ -108,7 +109,7 @@ Random Forest via the {ranger} package:
 
 ``` r
 task = tsk("iris")
-lrn = lrn("classif.ranger")
+lrn = lrn("classif.ranger", seed = 42)
 lrn$param_set$values = list(importance = "impurity")
 
 filter = flt("importance", learner = lrn)
@@ -116,10 +117,10 @@ filter$calculate(task)
 head(as.data.table(filter), 3)
 ```
 
-    ##         feature    score
-    ## 1: Petal.Length 43.19847
-    ## 2:  Petal.Width 43.11627
-    ## 3: Sepal.Length 10.62848
+    ##         feature     score
+    ## 1: Petal.Length 44.682462
+    ## 2:  Petal.Width 43.113031
+    ## 3: Sepal.Length  9.039099
 
 ### Performance Filter
 

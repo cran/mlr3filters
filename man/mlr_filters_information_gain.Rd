@@ -53,8 +53,10 @@ if (mlr3misc::require_namespaces(c("mlr3pipelines", "FSelectorRcpp", "rpart"), q
 
 Other Filter: 
 \code{\link{Filter}},
+\code{\link{mlr_filters}},
 \code{\link{mlr_filters_anova}},
 \code{\link{mlr_filters_auc}},
+\code{\link{mlr_filters_boruta}},
 \code{\link{mlr_filters_carscore}},
 \code{\link{mlr_filters_carsurvscore}},
 \code{\link{mlr_filters_cmim}},
@@ -62,8 +64,8 @@ Other Filter:
 \code{\link{mlr_filters_disr}},
 \code{\link{mlr_filters_find_correlation}},
 \code{\link{mlr_filters_importance}},
-\code{\link{mlr_filters_jmim}},
 \code{\link{mlr_filters_jmi}},
+\code{\link{mlr_filters_jmim}},
 \code{\link{mlr_filters_kruskal_test}},
 \code{\link{mlr_filters_mim}},
 \code{\link{mlr_filters_mrmr}},
@@ -72,8 +74,8 @@ Other Filter:
 \code{\link{mlr_filters_permutation}},
 \code{\link{mlr_filters_relief}},
 \code{\link{mlr_filters_selected_features}},
-\code{\link{mlr_filters_variance}},
-\code{\link{mlr_filters}}
+\code{\link{mlr_filters_univariate_cox}},
+\code{\link{mlr_filters_variance}}
 }
 \concept{Filter}
 \section{Super class}{
